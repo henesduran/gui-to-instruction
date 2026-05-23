@@ -317,7 +317,7 @@ with tab_demo:
 
     if file_bytes:
         with col_left:
-            st.image(file_bytes, caption="Uploaded screenshot", use_column_width=True)
+            st.image(file_bytes, caption="Uploaded screenshot", use_container_width=True)
 
 
 # ── Tab 2: Results Gallery ─────────────────────────────────────────────────────
@@ -336,7 +336,7 @@ with tab_gallery:
             with col1:
                 ss_path = Path(ex["screenshot"])
                 if ss_path.exists():
-                    st.image(str(ss_path), use_column_width=True)
+                    st.image(str(ss_path), use_container_width=True)
                 else:
                     st.markdown(
                         '<div style="background:#f7f7f7;border:1px dashed #ccc;padding:3rem 1rem;'
