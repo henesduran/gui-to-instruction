@@ -13,7 +13,7 @@ pinned: false
 
 Given a GUI screenshot and two fields of action metadata, this pipeline outputs a structured natural language instruction — precise enough to drive any downstream test automation system.
 
-```json
+```
 Input:  {"action": "entry", "argument": "Istanbul"}
 Output: {"instruction": "Within the context of Shipping Address, enter Istanbul as the City.", "intent": "entry"}
 ```
@@ -173,7 +173,7 @@ Requires Python 3.10+ and a [Google AI Studio API key](https://aistudio.google.c
 **Run the pipeline:**
 ```bash
 python run_tests.py --phase 1
-python run_tests.py --phase 1 --resume   # skip already-processed actions
+python run_tests.py --phase 1 --no-resume   # re-process all, ignore existing output
 python run_tests.py --phase 3 --delay 10
 ```
 
@@ -197,7 +197,7 @@ report({"Phase I": "output.json", "Phase II": "output2.json", "Phase III": "outp
 ## Repository Structure
 
 ```
-gui-to-instruction/
+gui-instruction/
 ├── app.py               # Streamlit demo — live inference, results gallery, metrics
 ├── run_tests.py         # CLI pipeline runner (argparse, phases 1–4)
 ├── adapter.py           # CLI: converts pipeline JSON output to Playwright .spec.js
