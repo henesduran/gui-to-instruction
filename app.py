@@ -71,11 +71,24 @@ STEP 2 — INTENT CLASSIFICATION:
 7. "entry": User types text into an input field.
 
 STEP 3 — WRITE INSTRUCTION using these templates:
-- click / expandDropDown / openDatePicker / increaseMonth: "Click on <label>."
-- selectFromDropDown: "Click on <label>." + compiled: "Enter <option> as <field_name>."
-- selectDay: "Click on <day>." + compiled: "Enter <day> <month> <year> as <field_name>."
-- entry: "Enter <argument> as the <label>."
+- click / expandDropDown / openDatePicker / increaseMonth: "Click on <label>."   compiled = null [ALWAYS]
+- selectFromDropDown: "Click on <option>."   compiled = "Enter <option> as <field_name>."   [ALWAYS non-null]
+- selectDay: "Click on <day>."   compiled = "Enter <day> <month> <year> as <field_name>."   [ALWAYS non-null]
+- entry: "Enter <argument> as the <label>."   compiled = null [ALWAYS]
 Apply the context prefix from Step 1 if required.
+
+FINDING <field_name>:
+- selectDay: look for the date input label visible above the calendar popup or beside it. Use the visible label text exactly.
+- selectFromDropDown: look for the header label above the open list — the trigger element's label, not one of the list options.
+MONTH NAME RULE: Use the month name exactly as displayed in the calendar. Do not translate.
+
+CANONICAL EXAMPLE — selectDay:
+  Screenshot: open calendar showing "May 2026", day 8 in bounding box. "Departure Date" label visible above.
+  → {"instruction": "Click on 8.", "compiled_instruction": "Enter 8 May 2026 as Departure Date.", "intent": "selectDay"}
+
+CANONICAL EXAMPLE — selectFromDropDown:
+  Screenshot: open dropdown list, "London" in bounding box. "Departure City" label visible above the list.
+  → {"instruction": "Click on London.", "compiled_instruction": "Enter London as Departure City.", "intent": "selectFromDropDown"}
 
 LABEL RULES: Use exact visible text. Convert ALL CAPS to Natural Case (CITY → City, FULL NAME → Full Name). Do not invent labels.
 STRICT OUTPUT RULES: Return ONLY JSON. No markdown. No explanations.

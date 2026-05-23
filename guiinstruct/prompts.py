@@ -90,7 +90,7 @@ INPUTS
 GOAL
 Output ONLY a valid JSON object with three fields:
 - "instruction":          The natural language description of the single atomic action.
-- "compiled_instruction": Final compiled description if the action completes a sequence. Otherwise null.
+- "compiled_instruction": See rules below — either a string or null.
 - "intent":               The categorical intent of the action.
 
 INTENT CATEGORIZATION LOGIC
@@ -103,18 +103,45 @@ INTENT CATEGORIZATION LOGIC
 7. "entry"              — user types text into an input field.
 
 INSTRUCTION & COMPILATION RULES
-- selectDay:            instruction = "Click on <day>."
-                        compiled    = "Enter <day> <month> <year> as <field_name>."
-- selectFromDropDown:   instruction = "Click on <option>."
-                        compiled    = "Enter <option> as <field_name>."
-- entry:                instruction = "Enter <argument> as the <label>."
-- all other intents:    instruction = "Click on <label>."
-                        compiled    = null
+- selectDay:
+    instruction          = "Click on <day>."
+    compiled_instruction = "Enter <day> <month> <year> as <field_name>."   [ALWAYS non-null]
+- selectFromDropDown:
+    instruction          = "Click on <option>."
+    compiled_instruction = "Enter <option> as <field_name>."              [ALWAYS non-null]
+- entry:
+    instruction          = "Enter <argument> as the <label>."
+    compiled_instruction = null                                             [ALWAYS null]
+- all other intents (openDatePicker, increaseMonth, expandDropDown, click):
+    instruction          = "Click on <label>."
+    compiled_instruction = null                                             [ALWAYS null]
+
+FINDING <field_name> FOR COMPILED INSTRUCTIONS
+- selectDay: <field_name> is the label of the date input that triggered the calendar. It is
+  typically visible above the calendar popup or on the input field behind/adjacent to it.
+  Use the visible label text exactly.
+- selectFromDropDown: <field_name> is the header label above the open dropdown list — the
+  trigger element's label. Do not use the name of the selected option as the field name.
+
+MONTH NAME RULE
+Use the month name exactly as displayed in the calendar. Do not translate.
+Example: if the calendar shows "Mayıs 2026" → compiled = "Enter 8 Mayıs 2026 as <field_name>."
+
+CANONICAL EXAMPLE — selectDay:
+  Screenshot: open calendar showing "May 2026", day 8 is inside the bounding box.
+  Date field label "Departure Date" is visible above the calendar.
+  Action: {"action": "click"}
+  → {"instruction": "Click on 8.", "compiled_instruction": "Enter 8 May 2026 as Departure Date.", "intent": "selectDay"}
+
+CANONICAL EXAMPLE — selectFromDropDown:
+  Screenshot: open dropdown list, option "London" is inside the bounding box.
+  Dropdown trigger label "Departure City" is visible above the list.
+  Action: {"action": "click"}
+  → {"instruction": "Click on London.", "compiled_instruction": "Enter London as Departure City.", "intent": "selectFromDropDown"}
 
 LABEL & CONTEXT RULES
 - Exact visible text. Convert ALL CAPS to Natural Case.
 - For icons, use descriptive names (e.g., "right arrow head icon").
-- For compiled instructions, use the nearest header/field title as <field_name>.
 - CONTEXT RULE — Execute this for EVERY instruction before writing it:
   1. SCAN: Look across the entire visible screenshot for any other element sharing the same label text as the bounding-box element.
   2. DECIDE:
