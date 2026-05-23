@@ -13,11 +13,37 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          lfs: true
 
-      - name: Push to HF
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install huggingface_hub
+        run: pip install huggingface_hub
+
+      - name: Push to HF Spaces
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote add space https://henesduran:$HF_TOKEN@huggingface.co/spaces/henesduran/gui-instruction-pipeline
-          git push --force space master
+          python - <<'EOF'
+          import os
+          from huggingface_hub import HfApi
+
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          api.upload_folder(
+              folder_path=".",
+              repo_id="henesduran/gui-instruction-pipeline",
+              repo_type="space",
+              ignore_patterns=[
+                  ".git", ".git/**",
+                  ".github", ".github/**",
+                  "__pycache__", "**/__pycache__/**",
+                  "*.pyc",
+                  ".env",
+                  "CLAUDE.md",
+                  ".claude", ".claude/**",
+              ],
+          )
+          print("Upload complete.")
+          EOF
