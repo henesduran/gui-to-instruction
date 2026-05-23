@@ -227,7 +227,7 @@ with st.sidebar:
         st.success("Live inference enabled", icon="✅")
     else:
         st.info("Gallery mode (no API key)", icon="ℹ️")
-    st.markdown("[GitHub](https://github.com/henesduran/gui-instruction)", unsafe_allow_html=True)
+    st.markdown("[GitHub](https://github.com/henesduran/gui-to-instruction)", unsafe_allow_html=True)
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────

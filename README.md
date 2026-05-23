@@ -158,8 +158,8 @@ Step 3: {"instruction": "Click on 8.",                    "intent": "selectDay",
 ## Setup
 
 ```bash
-git clone https://github.com/henesduran/gui-instruction
-cd gui-instruction
+git clone https://github.com/henesduran/gui-to-instruction
+cd gui-to-instruction
 pip install -r requirements.txt
 cp .env.example .env   # add your GEMINI_API_KEY
 ```
@@ -197,7 +197,7 @@ report({"Phase I": "output.json", "Phase II": "output2.json", "Phase III": "outp
 ## Repository Structure
 
 ```
-gui-instruction/
+gui-to-instruction/
 ├── app.py               # Streamlit demo — live inference, results gallery, metrics
 ├── run_tests.py         # CLI pipeline runner (argparse, phases 1–4)
 ├── adapter.py           # CLI: converts pipeline JSON output to Playwright .spec.js
