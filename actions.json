@@ -1,0 +1,125 @@
+{
+    "action1": {
+    "action": "click",
+    "type": "click",
+    "ss": "action1.png"
+},
+    "action2": {
+    "action": "click",
+    "type": "click",
+    "ss": "action2.png"
+},
+"action3": {
+    "action": "click",
+    "type": "click",
+    "ss": "action3.png"
+},
+"action4": {
+    "action": "click",
+    "type": "click",
+    "ss": "action4.png"
+},
+"action5": {
+    "action": "click",
+    "type": "click",
+    "ss": "action5.png"
+},
+"action6": {
+    "action": "click",
+    "type": "click",
+    "ss": "action6.png"
+},
+"action7": {
+    "action": "click",
+    "type": "click",
+    "ss": "action7.png"
+},
+"action8": {
+    "action": "click",
+    "type": "click",
+    "ss": "action8.png"
+},
+"action9": {
+    "action": "click",
+    "type": "click",
+    "ss": "action9.png"
+},
+"action10": {
+    "action": "entry",
+    "argument": "1000",
+    "ss": "action10.png"
+},
+"action11": {
+    "action": "click",
+    "type": "click",
+    "ss": "action11.png"
+},
+"action12": {
+    "action": "click",
+    "type": "click",
+    "ss": "action12.png"
+},"action13": {
+    "action": "click",
+    "type": "click",
+    "ss": "action13.png"
+},
+"action14": {
+    "action": "click",
+    "type": "click",
+    "ss": "action14.png"
+},
+"action15": {
+    "action": "click",
+    "type": "click",
+    "ss": "action15.png"
+},
+"action16": {
+    "action": "entry",
+    "argument": "Challenger",
+    "ss": "action16.png"
+},"action17": {
+    "action": "entry",
+    "argument": "trendyol",
+    "ss": "action17.png"
+},
+"action18": {
+    "action": "entry",
+    "argument": "50000",
+    "ss": "action18.png"
+},
+"action19": {
+    "action": "entry",
+    "argument": "120,000",
+    "ss": "action19.png"
+},
+"action20": {
+    "action": "entry",
+    "argument": "PROJ 201",
+    "ss": "action20.png"
+},
+"action21": {
+    "action": "entry",
+    "argument": "Istanbul",
+    "ss": "action21.png"
+},
+"action22": {
+    "action": "entry",
+    "argument": "01020",
+    "ss": "action22.png"
+},
+"action23": {
+    "action": "entry",
+    "argument": "Enes Duran",
+    "ss": "action23.png"
+},
+"action24": {
+    "action": "entry",
+    "argument": "Enes",
+    "ss": "action24.png"
+},
+"action25": {
+    "action": "entry",
+    "argument": "Mother",
+    "ss": "action25.png"
+}
+}

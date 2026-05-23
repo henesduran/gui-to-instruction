@@ -1,0 +1,54 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Dev tooling
+CLAUDE.md
+.claude/
+
+# Bulk screenshot directories
+edited/
+screenshots/
+screenshots2/
+screenshots3/
+cls/
+
+# Organized result trees (generated output)
+phase_I/
+phase_II/
+phase2new/
+phase3/
+
+# Archive files
+*.zip
+
+# Legacy organizer scripts
+fetch.py
+fetchpahse3.py
+
+# Phase II / III data (not in clean repo)
+actions2.json
+actions3.json
+output2.json
+output3.json
+output5.json
+output2 copy.json
+output3 copy.json
+
+# Misc working files
+index.html
+run_tests copy.py

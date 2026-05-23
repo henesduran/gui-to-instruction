@@ -1,0 +1,102 @@
+{
+    "action1": {
+        "instruction": "Within the context of Rotring Jel Kalem 0.7 mm, Siyah - 2114436, click on Sepete ekle.",
+        "intent": "click"
+    },
+    "action2": {
+        "instruction": "Within the context of 16 Eylül 2024, click on Değerlendir.",
+        "intent": "click"
+    },
+    "action3": {
+        "instruction": "Within the context of Apple Watch 6, click on Buy.",
+        "intent": "click"
+    },
+    "action4": {
+        "instruction": "Click on 1,0x.",
+        "intent": "click"
+    },
+    "action5": {
+        "instruction": "Click on Bildirimler.",
+        "intent": "click"
+    },
+    "action6": {
+        "instruction": "Click on Order Now.",
+        "intent": "click"
+    },
+    "action7": {
+        "instruction": "Within the context of Giyim, Ayakkabı, click on Erkek.",
+        "intent": "click"
+    },
+    "action8": {
+        "instruction": "Click on English.",
+        "intent": "click"
+    },
+    "action9": {
+        "instruction": "Within the context of Recommended Combo, click on Add.",
+        "intent": "click"
+    },
+    "action10": {
+        "instruction": "Enter 1000 as the From.",
+        "intent": "entry"
+    },
+    "action11": {
+        "instruction": "Within the context of Data Structure and Algorithms, click on View more.",
+        "intent": "click"
+    },
+    "action12": {
+        "instruction": "Within the context of Weekly Contest 493, click on Virtual.",
+        "intent": "click"
+    },
+    "action13": {
+        "instruction": "Within the context of Pro, click on Try Claude.",
+        "intent": "click"
+    },
+    "action14": {
+        "instruction": "Click on Minimize Gaps.",
+        "intent": "click"
+    },
+    "action15": {
+        "instruction": "Click on Download Schedule As Image.",
+        "intent": "click"
+    },
+    "action16": {
+        "instruction": "Enter Challenger as the Model Name.",
+        "intent": "entry"
+    },
+    "action17": {
+        "instruction": "Enter trendyol as the Company Name.",
+        "intent": "entry"
+    },
+    "action18": {
+        "instruction": "Enter 50000 as the Annual Income $.",
+        "intent": "entry"
+    },
+    "action19": {
+        "instruction": "Enter 120,000 as the Tutar.",
+        "intent": "entry"
+    },
+    "action20": {
+        "instruction": "Enter PROJ 201 as the Search Courses.",
+        "intent": "entry"
+    },
+    "action21": {
+        "instruction": "Within the context of Shipping Address, enter Istanbul as the City.",
+        "intent": "entry"
+    },
+    "action22": {
+        "instruction": "Within the context of Home, enter 01020 as Zip Code.",
+        "intent": "entry"
+    },
+    "action23": {
+        "instruction": "Within the context of Personal Card, enter Enes Duran as the Cardholder.",
+        "intent": "entry"
+    },
+    "action24": {
+        "instruction": "Within the context of Passenger 1 (Adult), enter Enes as First Name.",
+        "intent": "entry"
+    },
+    "action25": {
+        "instruction": "Within the context of Primary Emergency Contact, enter Mother as Relationship.",
+        "intent": "entry"
+    }
+}
