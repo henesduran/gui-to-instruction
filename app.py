@@ -13,6 +13,12 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# Force session initialization immediately after page config so the WebSocket
+# session is established before any file uploader widget renders. This prevents
+# the "SessionInfo not initialized" race condition on cold starts (HF Spaces).
+if "file_bytes" not in st.session_state:
+    st.session_state.file_bytes = None
+
 # ── Gemini setup ───────────────────────────────────────────────────────────────
 try:
     from google import genai
