@@ -120,7 +120,7 @@ Step 3: {"instruction": "Click on 8.",                    "intent": "selectDay",
 ## Setup
 
 ```bash
-git clone https://github.com/yourusername/gui-to-instruction
+git clone https://github.com/henesduran/gui-to-instruction
 cd gui-to-instruction
 pip install -r requirements.txt
 cp .env.example .env   # add your GEMINI_API_KEY
