@@ -39,9 +39,13 @@ def _read_image(path: str) -> bytes | None:
         return None
 
 
+def _detect_mime(data: bytes) -> str:
+    return "image/jpeg" if data[:2] == b"\xff\xd8" else "image/png"
+
+
 def _call_gemini(image_data: bytes, action_data: dict, phase: int) -> dict:
     client = _get_client()
-    image_part = types.Part.from_bytes(data=image_data, mime_type="image/png")
+    image_part = types.Part.from_bytes(data=image_data, mime_type=_detect_mime(image_data))
     response = client.models.generate_content(
         model="gemini-2.5-flash-lite",
         config=types.GenerateContentConfig(

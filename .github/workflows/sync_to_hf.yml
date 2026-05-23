@@ -20,7 +20,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install huggingface_hub
-        run: pip install huggingface_hub
+        run: pip install "huggingface_hub==1.16.1"
 
       - name: Push to HF Spaces
         env:

@@ -39,7 +39,7 @@ INPUTS:
 GOAL:
 Output ONLY a valid JSON object with the following fields:
 - "instruction": The natural language description of the single atomic action.
-- "compiled_instruction": The final compiled description if the action completes a sequence. Otherwise, null.
+- "compiled_instruction": Non-null string for selectDay and selectFromDropDown only; null for all other intents.
 - "intent": The categorical intent of the action.
 
 STEP 1 — CONTEXT CHECK (MANDATORY, do this before anything else):

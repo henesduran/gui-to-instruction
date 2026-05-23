@@ -60,7 +60,8 @@ INTENT CATEGORIZATION LOGIC
 4. "entry"            — action is "entry"; user is typing into a text field.
 
 INSTRUCTION TEMPLATES
-- click / expandDropDown / selectFromDropDown: "Click on <label>."
+- click / expandDropDown: "Click on <label>."
+- selectFromDropDown: "Click on <option>."
 - entry: "Enter <argument> as the <label>."
 
 CONTEXT RULE — Execute this for EVERY instruction before writing it:
@@ -69,6 +70,16 @@ CONTEXT RULE — Execute this for EVERY instruction before writing it:
    - Duplicates found → identify the nearest enclosing container that uniquely locates THIS element: a card title, panel heading, form section label, column header, or group name visible directly above or beside the element. Use that text as <context> and prepend: "Within the context of <context>, ..."
    - No duplicates → write the instruction without any context prefix.
 3. VERIFY: The <context> text must be literally visible on the screen. Do not invent or infer section names.
+
+CANONICAL EXAMPLE — selectFromDropDown with context:
+  Screenshot: two booking forms "Outbound" and "Return", each with an open "Class" dropdown. Bounding box on "Economy" inside the Outbound form's dropdown list.
+  Action: {"action": "click"}
+  → {"instruction": "Within the context of Outbound, click on Economy.", "intent": "selectFromDropDown"}
+
+CANONICAL EXAMPLE — selectFromDropDown without context:
+  Screenshot: a single open dropdown for "Departure City", option "Istanbul" is in the bounding box.
+  Action: {"action": "click"}
+  → {"instruction": "Click on Istanbul.", "intent": "selectFromDropDown"}
 
 LABEL RULES
 - Exact visible text. Convert ALL CAPS to Natural Case.

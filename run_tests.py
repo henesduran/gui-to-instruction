@@ -4,7 +4,7 @@ CLI entry point for the GUI-to-instruction pipeline.
 
 Usage:
     python run_tests.py --phase 1
-    python run_tests.py --phase 1 --resume
+    python run_tests.py --phase 1 --no-resume
     python run_tests.py --phase 3 --delay 10
 """
 
@@ -32,9 +32,9 @@ def main() -> None:
         help="Dataset phase (1=click/entry, 2=dropdowns, 3=date pickers).",
     )
     parser.add_argument(
-        "--resume",
+        "--no-resume",
         action="store_true",
-        help="Skip actions already present in the output file.",
+        help="Re-process all actions, ignoring any existing output file.",
     )
     parser.add_argument(
         "--delay",
@@ -50,7 +50,7 @@ def main() -> None:
         screenshots_dir=cfg["screenshots"],
         output_path=cfg["output"],
         phase=args.phase,
-        resume=args.resume,
+        resume=not args.no_resume,
         delay=args.delay,
     )
 
