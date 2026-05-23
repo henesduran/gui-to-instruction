@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 
 import streamlit as st
-from PIL import Image
 
 # ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -93,9 +92,13 @@ def _get_genai_client():
     return _genai_client
 
 
+def _detect_mime(data: bytes) -> str:
+    return "image/jpeg" if data[:2] == b"\xff\xd8" else "image/png"
+
+
 def call_gemini(image_bytes: bytes, action_data: dict) -> dict:
     client = _get_genai_client()
-    image_part = genai_types.Part.from_bytes(data=image_bytes, mime_type="image/png")
+    image_part = genai_types.Part.from_bytes(data=image_bytes, mime_type=_detect_mime(image_bytes))
     response = client.models.generate_content(
         model="gemini-2.5-flash-lite",
         config=genai_types.GenerateContentConfig(
@@ -243,10 +246,8 @@ with tab_demo:
             type=["png", "jpg", "jpeg"],
             disabled=not LIVE_INFERENCE,
         )
-        if uploaded is not None:
-            st.session_state["file_bytes"] = uploaded.getvalue()
-
-        file_bytes = st.session_state.get("file_bytes")
+        st.session_state["file_bytes"] = uploaded.getvalue() if uploaded is not None else None
+        file_bytes = st.session_state["file_bytes"]
 
         action_type = st.selectbox(
             "Action type",
@@ -266,7 +267,7 @@ with tab_demo:
         run_btn = st.button(
             "Generate Instruction",
             type="primary",
-            disabled=not LIVE_INFERENCE or file_bytes is None,
+            disabled=not LIVE_INFERENCE or file_bytes is None or (action_type == "entry" and not argument),
         )
 
     with col_right:
