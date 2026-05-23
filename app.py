@@ -37,7 +37,26 @@ Output ONLY a valid JSON object with the following fields:
 - "compiled_instruction": The final compiled description if the action completes a sequence. Otherwise, null.
 - "intent": The categorical intent of the action.
 
-INTENT CATEGORIZATION LOGIC:
+STEP 1 — CONTEXT CHECK (MANDATORY, do this before anything else):
+Scan the entire screenshot for any other visible element that shares the exact same label text as the element inside the bounding box.
+- If the same label appears MORE THAN ONCE on screen: context is REQUIRED.
+  Find the nearest enclosing section that contains ONLY the bounding-box element — this is the card title, panel heading, form section label, or column header visible directly above or beside it.
+  All instructions for this element MUST begin with: "Within the context of <section>, ..."
+- If the label appears exactly once: no context prefix.
+
+CANONICAL EXAMPLE of context required:
+  Screenshot: two side-by-side cards "Shipping Address" and "Billing Address", each containing a "CITY" field. Bounding box on Shipping Address's CITY field.
+  Action: {"action": "entry", "argument": "Istanbul"}
+  → "Within the context of Shipping Address, enter Istanbul as the City."   ← CORRECT
+  → "Enter Istanbul as the City."                                            ← WRONG (label is not unique)
+
+CANONICAL EXAMPLE of no context needed:
+  Screenshot: a single search bar labeled "SEARCH COURSES".
+  Action: {"action": "entry", "argument": "PROJ 201"}
+  → "Enter PROJ 201 as the Search Courses."   ← CORRECT
+  → "Within the context of ..., ..."          ← WRONG (label is unique)
+
+STEP 2 — INTENT CLASSIFICATION:
 1. "openDatePicker": User clicks a date field to open the calendar popup.
 2. "increaseMonth": User clicks the navigation icon (e.g., right arrow) inside the calendar.
 3. "selectDay": User clicks a specific day number inside an open calendar.
@@ -46,19 +65,14 @@ INTENT CATEGORIZATION LOGIC:
 6. "click": Standard button/link click not related to dropdowns or date pickers.
 7. "entry": User types text into an input field.
 
-INSTRUCTION TEMPLATES:
+STEP 3 — WRITE INSTRUCTION using these templates:
 - click / expandDropDown / openDatePicker / increaseMonth: "Click on <label>."
 - selectFromDropDown: "Click on <label>." + compiled: "Enter <option> as <field_name>."
 - selectDay: "Click on <day>." + compiled: "Enter <day> <month> <year> as <field_name>."
 - entry: "Enter <argument> as the <label>."
+Apply the context prefix from Step 1 if required.
 
-CONTEXT RULE — Execute this for EVERY instruction before writing it:
-1. SCAN: Look across the entire visible screenshot for any other element sharing the same label text as the bounding-box element.
-2. DECIDE:
-   - Duplicates found → identify the nearest enclosing container that uniquely locates THIS element: a card title, panel heading, form section label, column header, or group name visible directly above or beside the element. Use that text as <context> and prepend: "Within the context of <context>, ..."
-   - No duplicates → write the instruction without any context prefix.
-3. VERIFY: The <context> text must be literally visible on the screen. Do not invent or infer section names.
-LABEL RULES: Use exact visible text. Convert ALL CAPS to Natural Case. Do not invent labels.
+LABEL RULES: Use exact visible text. Convert ALL CAPS to Natural Case (CITY → City, FULL NAME → Full Name). Do not invent labels.
 STRICT OUTPUT RULES: Return ONLY JSON. No markdown. No explanations.
 """
 

@@ -2,41 +2,39 @@ PHASE1 = """
 You are a system that converts GUI user interactions into structured natural language instructions.
 
 INPUTS
-You will receive:
-1. A screenshot of a graphical user interface.
+1. A screenshot of a graphical user interface with a red bounding box marking the interacted element.
 2. A JSON object describing the user action.
-
-The screenshot contains a bounding box marking the GUI element that the user interacted with.
-
-GOAL
-Generate a structured natural language instruction describing the user interaction.
-
-IMPORTANT
-The instruction MUST refer to the GUI element using the label visible on the screen.
-
-SUPPORTED ACTIONS
-1. Click action  → {"action":"click","type":"click"}
-2. Entry action  → {"action":"entry","argument":"VALUE"}
 
 OUTPUT FORMAT
 Return ONLY a valid JSON object: {"instruction":"...","intent":"..."}
-
 The "intent" field MUST be one of: "click", "entry"
 
-INSTRUCTION TEMPLATES
-- Click, unique element:  "Click on <GUI element>."
-- Entry, unique element:  "Enter <argument> as the <GUI element>."
+STEP 1 — CONTEXT CHECK (MANDATORY, do this before anything else):
+Scan the entire screenshot for any other visible element that shares the exact same label text as the element inside the bounding box.
+- If the same label appears MORE THAN ONCE on screen: context is REQUIRED.
+  Find the nearest enclosing section that contains ONLY the bounding-box element — card title, panel heading, form section label, or column header visible directly above or beside it.
+  All instructions for this element MUST begin with: "Within the context of <section>, ..."
+- If the label appears exactly once: no context prefix.
 
-CONTEXT RULE — Execute this for EVERY instruction before writing it:
-1. SCAN: Look across the entire visible screenshot for any other element sharing the same label text as the bounding-box element.
-2. DECIDE:
-   - Duplicates found → identify the nearest enclosing container that uniquely locates THIS element: a card title, panel heading, form section label, column header, or group name visible directly above or beside the element. Use that text as <context> and prepend: "Within the context of <context>, ..."
-   - No duplicates → write the instruction without any context prefix.
-3. VERIFY: The <context> text must be literally visible on the screen. Do not invent or infer section names.
+CANONICAL EXAMPLE of context required:
+  Screenshot: two side-by-side cards "Shipping Address" and "Billing Address", each containing a "CITY" field. Bounding box on Shipping Address's CITY field.
+  Action: {"action": "entry", "argument": "Istanbul"}
+  → "Within the context of Shipping Address, enter Istanbul as the City."   ← CORRECT
+  → "Enter Istanbul as the City."                                            ← WRONG (label is not unique)
+
+CANONICAL EXAMPLE of no context needed:
+  Screenshot: a single search bar labeled "SEARCH COURSES".
+  Action: {"action": "entry", "argument": "PROJ 201"}
+  → "Enter PROJ 201 as the Search Courses."   ← CORRECT
+
+STEP 2 — WRITE INSTRUCTION:
+- click:  "Click on <label>."
+- entry:  "Enter <argument> as the <label>."
+Apply the context prefix from Step 1 if required.
 
 LABEL RULES
 - Use exact visible text from the screen.
-- Convert ALL CAPS to Natural Case (e.g., LOAN AMOUNT → Loan Amount).
+- Convert ALL CAPS to Natural Case (CITY → City, LOAN AMOUNT → Loan Amount).
 - Do not invent labels or describe visual properties.
 
 STRICT OUTPUT RULES
