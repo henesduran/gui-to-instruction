@@ -58,8 +58,18 @@ STRICT OUTPUT RULES: Return ONLY JSON. No markdown. No explanations.
 """
 
 
+_genai_client = None
+
+
+def _get_genai_client():
+    global _genai_client
+    if _genai_client is None and LIVE_INFERENCE:
+        _genai_client = genai.Client(api_key=API_KEY)
+    return _genai_client
+
+
 def call_gemini(image_bytes: bytes, action_data: dict) -> dict:
-    client = genai.Client(api_key=API_KEY)
+    client = _get_genai_client()
     image_part = genai_types.Part.from_bytes(data=image_bytes, mime_type="image/png")
     response = client.models.generate_content(
         model="gemini-2.5-flash-lite",
@@ -208,6 +218,10 @@ with tab_demo:
             type=["png", "jpg", "jpeg"],
             disabled=not LIVE_INFERENCE,
         )
+        if uploaded is not None:
+            st.session_state["file_bytes"] = uploaded.getvalue()
+
+        file_bytes = st.session_state.get("file_bytes")
 
         action_type = st.selectbox(
             "Action type",
@@ -227,20 +241,20 @@ with tab_demo:
         run_btn = st.button(
             "Generate Instruction",
             type="primary",
-            disabled=not LIVE_INFERENCE or uploaded is None,
+            disabled=not LIVE_INFERENCE or file_bytes is None,
         )
 
     with col_right:
         st.subheader("Output")
 
-        if run_btn and uploaded:
+        if run_btn and file_bytes:
             action_data: dict = {"action": action_type}
             if argument:
                 action_data["argument"] = argument
 
             with st.spinner("Calling Gemini 2.5 Flash Lite…"):
                 try:
-                    result = call_gemini(uploaded.read(), action_data)
+                    result = call_gemini(file_bytes, action_data)
                     intent = result.get("intent", "")
                     st.markdown(
                         f"**Intent:** {intent_badge(intent)}",
@@ -262,9 +276,9 @@ with tab_demo:
                 unsafe_allow_html=True,
             )
 
-    if uploaded:
+    if file_bytes:
         with col_left:
-            st.image(uploaded, caption="Uploaded screenshot", use_container_width=True)
+            st.image(file_bytes, caption="Uploaded screenshot", use_container_width=True)
 
 
 # ── Tab 2: Results Gallery ─────────────────────────────────────────────────────
