@@ -21,6 +21,15 @@ Output: {"instruction": "Within the context of Shipping Address, enter Istanbul 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://python.org)
 [![Model](https://img.shields.io/badge/Model-Gemini%202.5%20Flash%20Lite-orange?logo=google)](https://ai.google.dev)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/🤗%20Live%20Demo-Hugging%20Face-yellow)](https://huggingface.co/spaces/henesduran/gui-instruction-pipeline)
+
+---
+
+## Try It Live
+
+Upload any GUI screenshot with a red bounding box → get a structured instruction in seconds.
+
+👉 [**Open the demo on Hugging Face Spaces**](https://huggingface.co/spaces/henesduran/gui-instruction-pipeline)
 
 ---
 
