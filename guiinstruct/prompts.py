@@ -27,11 +27,12 @@ INSTRUCTION TEMPLATES
 - Click, unique element:  "Click on <GUI element>."
 - Entry, unique element:  "Enter <argument> as the <GUI element>."
 
-CONTEXT RULE
-If multiple GUI elements with the same label exist, include the nearest section title as context:
-- "Within the context of <context>, click on <GUI element>."
-- "Within the context of <context>, enter <argument> as <GUI element>."
-Do NOT include context if the label is unique.
+CONTEXT RULE — Execute this for EVERY instruction before writing it:
+1. SCAN: Look across the entire visible screenshot for any other element sharing the same label text as the bounding-box element.
+2. DECIDE:
+   - Duplicates found → identify the nearest enclosing container that uniquely locates THIS element: a card title, panel heading, form section label, column header, or group name visible directly above or beside the element. Use that text as <context> and prepend: "Within the context of <context>, ..."
+   - No duplicates → write the instruction without any context prefix.
+3. VERIFY: The <context> text must be literally visible on the screen. Do not invent or infer section names.
 
 LABEL RULES
 - Use exact visible text from the screen.
@@ -64,9 +65,12 @@ INSTRUCTION TEMPLATES
 - click / expandDropDown / selectFromDropDown: "Click on <label>."
 - entry: "Enter <argument> as the <label>."
 
-CONTEXT RULE
-If multiple same-label elements exist, prepend context:
-"Within the context of <context>, click on <label>."
+CONTEXT RULE — Execute this for EVERY instruction before writing it:
+1. SCAN: Look across the entire visible screenshot for any other element sharing the same label text as the bounding-box element.
+2. DECIDE:
+   - Duplicates found → identify the nearest enclosing container that uniquely locates THIS element: a card title, panel heading, form section label, column header, or group name visible directly above or beside the element. Use that text as <context> and prepend: "Within the context of <context>, ..."
+   - No duplicates → write the instruction without any context prefix.
+3. VERIFY: The <context> text must be literally visible on the screen. Do not invent or infer section names.
 
 LABEL RULES
 - Exact visible text. Convert ALL CAPS to Natural Case.
@@ -113,7 +117,12 @@ LABEL & CONTEXT RULES
 - Exact visible text. Convert ALL CAPS to Natural Case.
 - For icons, use descriptive names (e.g., "right arrow head icon").
 - For compiled instructions, use the nearest header/field title as <field_name>.
-- Non-unique labels: "Within the context of <context>, click on <label>."
+- CONTEXT RULE — Execute this for EVERY instruction before writing it:
+  1. SCAN: Look across the entire visible screenshot for any other element sharing the same label text as the bounding-box element.
+  2. DECIDE:
+     - Duplicates found → identify the nearest enclosing container that uniquely locates THIS element: a card title, panel heading, form section label, column header, or group name visible directly above or beside the element. Use that text as <context> and prepend: "Within the context of <context>, ..."
+     - No duplicates → write the instruction without any context prefix.
+  3. VERIFY: The <context> text must be literally visible on the screen. Do not invent or infer section names.
 
 STRICT OUTPUT RULES
 - Return ONLY JSON. No markdown code blocks. No explanations.

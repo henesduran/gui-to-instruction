@@ -52,7 +52,12 @@ INSTRUCTION TEMPLATES:
 - selectDay: "Click on <day>." + compiled: "Enter <day> <month> <year> as <field_name>."
 - entry: "Enter <argument> as the <label>."
 
-CONTEXT RULE: If the label is not unique on the screen, prepend: "Within the context of <section>, ..."
+CONTEXT RULE — Execute this for EVERY instruction before writing it:
+1. SCAN: Look across the entire visible screenshot for any other element sharing the same label text as the bounding-box element.
+2. DECIDE:
+   - Duplicates found → identify the nearest enclosing container that uniquely locates THIS element: a card title, panel heading, form section label, column header, or group name visible directly above or beside the element. Use that text as <context> and prepend: "Within the context of <context>, ..."
+   - No duplicates → write the instruction without any context prefix.
+3. VERIFY: The <context> text must be literally visible on the screen. Do not invent or infer section names.
 LABEL RULES: Use exact visible text. Convert ALL CAPS to Natural Case. Do not invent labels.
 STRICT OUTPUT RULES: Return ONLY JSON. No markdown. No explanations.
 """
