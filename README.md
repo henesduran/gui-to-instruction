@@ -1,3 +1,14 @@
+---
+title: GUI Instruction Pipeline
+emoji: 🖱️
+colorFrom: blue
+colorTo: purple
+sdk: streamlit
+sdk_version: 1.41.0
+app_file: app.py
+pinned: false
+---
+
 # gui-to-instruction
 
 Given a GUI screenshot and two fields of action metadata, this pipeline outputs a structured natural language instruction — precise enough to drive any downstream test automation system.
