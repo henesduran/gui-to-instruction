@@ -13,9 +13,10 @@ import argparse
 from guiinstruct.pipeline import run
 
 PHASE_CONFIG = {
-    1: {"actions": "actions.json",  "screenshots": "examples",     "output": "output.json"},
-    2: {"actions": "actions2.json", "screenshots": "screenshots2",  "output": "output2.json"},
-    3: {"actions": "actions3.json", "screenshots": "screenshots3",  "output": "output5.json"},
+    1: {"actions": "actions.json",    "screenshots": "examples",     "output": "output.json"},
+    2: {"actions": "actions2.json",   "screenshots": "screenshots2", "output": "output2.json"},
+    3: {"actions": "actions3.json",   "screenshots": "screenshots3", "output": "output5.json"},
+    4: {"actions": "actions_ss.json", "screenshots": "screenshots",  "output": "output_ss.json"},
 }
 
 
@@ -27,9 +28,9 @@ def main() -> None:
     parser.add_argument(
         "--phase",
         type=int,
-        choices=[1, 2, 3],
+        choices=[1, 2, 3, 4],
         default=1,
-        help="Dataset phase (1=click/entry, 2=dropdowns, 3=date pickers).",
+        help="Dataset phase (1=click/entry, 2=dropdowns, 3=date pickers, 4=ss screenshots).",
     )
     parser.add_argument(
         "--no-resume",
@@ -45,11 +46,12 @@ def main() -> None:
     args = parser.parse_args()
 
     cfg = PHASE_CONFIG[args.phase]
+    prompt_phase = 3 if args.phase == 4 else args.phase
     run(
         actions_path=cfg["actions"],
         screenshots_dir=cfg["screenshots"],
         output_path=cfg["output"],
-        phase=args.phase,
+        phase=prompt_phase,
         resume=not args.no_resume,
         delay=args.delay,
     )

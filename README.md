@@ -78,6 +78,24 @@ Evaluation was manual: each generated instruction compared against a hand-labele
 
 ---
 
+## Downstream Integration
+
+Any natural language instruction produced by this pipeline feeds directly into any Playwright-based test framework without additional transformation.
+
+```
+Input:  {"instruction": "Click on Product.", "intent": "expandDropDown"}
+Output: await page.getByRole('button', { name: 'Product' }).click();
+```
+
+Use `adapter.py` to convert a full pipeline output file into a ready-to-run spec:
+
+```bash
+python adapter.py output.json --test-name "My test" --output test.spec.js
+npx playwright test test.spec.js
+```
+
+---
+
 ## Intent Classification
 
 | Intent | Trigger | Example Output |
@@ -181,9 +199,11 @@ report({"Phase I": "output.json", "Phase II": "output2.json", "Phase III": "outp
 ```
 gui-to-instruction/
 ├── app.py               # Streamlit demo — live inference, results gallery, metrics
-├── run_tests.py         # CLI pipeline runner (argparse, phases 1–3)
+├── run_tests.py         # CLI pipeline runner (argparse, phases 1–4)
+├── adapter.py           # CLI: converts pipeline JSON output to Playwright .spec.js
 ├── requirements.txt
 ├── actions.json         # Phase I action descriptors (25 samples)
+├── actions_ss.json      # Phase IV action descriptors (4 samples, screenshots/ dir)
 ├── output.json          # Phase I pipeline outputs
 ├── examples/            # 6 annotated screenshots for the demo gallery
 │   ├── action1.png      # click with context disambiguation
@@ -192,6 +212,7 @@ gui-to-instruction/
 │   ├── action19.png     # entry with ALL CAPS label normalization
 │   ├── action20.png     # entry without context
 │   └── action21.png     # entry with context disambiguation
+├── screenshots/         # Phase IV screenshots (4 samples with red bounding boxes)
 └── guiinstruct/         # Core package
     ├── pipeline.py      # Inference engine: loads actions → calls Gemini → saves results
     ├── prompts.py       # System prompts for phases I, II, III
@@ -208,7 +229,7 @@ gui-to-instruction/
 - [x] Phase III: date picker sequences with compiled instructions (30 samples, ~80%)
 - [ ] Multi-model comparison: Gemini 2.5 Flash Lite vs GPT-4o vs Claude 3.5 Sonnet on the same dataset
 - [ ] Expand dataset to 200+ samples with formal inter-annotator agreement scoring
-- [ ] JSON output adapter aligned to a standard step-definition schema
+- [x] JSON output adapter aligned to a standard step-definition schema
 
 ---
 

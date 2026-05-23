@@ -1,0 +1,22 @@
+{
+    "action1": {
+        "instruction": "Click on See How It Works.",
+        "compiled_instruction": null,
+        "intent": "click"
+    },
+    "action3": {
+        "instruction": "Click on Product.",
+        "compiled_instruction": null,
+        "intent": "expandDropDown"
+    },
+    "action4": {
+        "instruction": "Click on Mix and Build.",
+        "compiled_instruction": null,
+        "intent": "click"
+    },
+    "action2": {
+        "instruction": "Click on Read details.",
+        "compiled_instruction": null,
+        "intent": "click"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "action1": {"action": "click", "type": "click", "ss": "ss1.png"},
+    "action2": {"action": "click", "type": "click", "ss": "ss2.png"},
+    "action3": {"action": "click", "type": "click", "ss": "ss3.png"},
+    "action4": {"action": "click", "type": "click", "ss": "ss4.png"}
+}
